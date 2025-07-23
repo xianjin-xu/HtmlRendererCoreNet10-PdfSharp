@@ -34,6 +34,7 @@ using (var stream = new MemoryStream())
 ```
 
 ## Publishing
+Use Github CI/CD after creating a new release, or: 
 - `dotnet build -c Release`
 - `dotnet pack -c Release ./HtmlRendererCoreNet7.PdfSharp/HtmlRendererCoreNet7.PdfSharp.csproj -o .`
 - `dotnet publish`
