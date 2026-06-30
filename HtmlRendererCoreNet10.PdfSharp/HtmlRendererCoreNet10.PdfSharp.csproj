@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <Authors>xianjin.xu</Authors>
+    <Product>HtmlRendererCoreNet10.PdfSharp</Product>
+    <Copyright />
+    <PackageLicenseFile></PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/xianjin-xu/HtmlRendererCore-PdfSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/xianjin-xu/HtmlRendererCore-PdfSharp</RepositoryUrl>
+    <Description>HtmlRendererCore-Net10 is a partial port of HtmlRenderer for .NET Core.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.10.0</Version>
+    <RootNamespace>HtmlRendererCore.PdfSharp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Core\Utils\ImageError.png" />
+    <None Remove="Core\Utils\ImageLoad.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Utils\ImageError.png" />
+    <EmbeddedResource Include="Core\Utils\ImageLoad.png" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PDFsharp" Version="6.2.4" />
+	</ItemGroup>
+
+</Project>
