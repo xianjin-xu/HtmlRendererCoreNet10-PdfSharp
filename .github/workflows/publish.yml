@@ -15,19 +15,22 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 10.x
+        dotnet-version: |
+          8.*
+          9.*
+          10.*
 
     - name: Restore Packages
       run: dotnet restore
 
     - name: Build
       run: dotnet build --no-restore
-      
-    - name: Publish
-      run: dotnet publish -c Release
+
+    # - name: Publish
+    #   run: dotnet publish -c Release
       
     - name: Pack
-      run: dotnet pack -c Release ./HtmlRendererCoreNet10.PdfSharp/HtmlRendererCoreNet10.PdfSharp.csproj -o .
+      run: dotnet pack -c Release ./HtmlRendererCoreNet10.PdfSharp/HtmlRendererCoreNet10.PdfSharp.csproj -o ./artifacts
 
     - name: Push
-      run: dotnet nuget push "*.nupkg" -k ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push "./artifacts/*.nupkg" -k ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
