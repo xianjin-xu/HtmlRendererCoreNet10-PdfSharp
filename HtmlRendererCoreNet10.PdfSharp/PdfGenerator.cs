@@ -1,17 +1,49 @@
-﻿using PdfSharp;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-using System;
-using HtmlRendererCore.Adapters;
+﻿using HtmlRendererCore.Adapters;
 using HtmlRendererCore.Core;
 using HtmlRendererCore.Core.Entities;
 using HtmlRendererCore.Core.Utils;
 using HtmlRendererCore.PdfSharp.Adapters;
+using HtmlRendererCore.PdfSharp.Utilities;
+
+using PdfSharp;
+using PdfSharp.Drawing;
+using PdfSharp.Fonts;
+using PdfSharp.Pdf;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace HtmlRendererCore.PdfSharp
 {
     public static class PdfGenerator
     {
+        /// <summary>
+        /// add for user to set the custom font and path, if not set, will use the default font
+        /// </summary>
+        /// <param name="customFontAndPaths"></param>
+        public static void Initialize(Dictionary<string, string> customFontAndPaths = null)
+        {
+            GlobalFontSettings.DefaultFontEncoding = PdfFontEncoding.Unicode;
+            var embeddedFontResolver = new EmbeddedFontResolver();
+            embeddedFontResolver.RegisterSystemFonts();
+            if (customFontAndPaths != null && customFontAndPaths.Any())
+            {
+                foreach (var item in customFontAndPaths)
+                {
+                    var fullPath = item.Value;
+                    if (!File.Exists(item.Value))
+                    {
+                        var basePath = AppDomain.CurrentDomain.BaseDirectory;
+                        fullPath = Path.Combine(basePath, item.Value);
+                    }
+                    embeddedFontResolver.RegistFontAndPath(item.Key, fullPath);
+                }
+            }
+            GlobalFontSettings.FontResolver = embeddedFontResolver;
+        }
+
         /// <summary>
         /// Adds a font mapping from <paramref name="fromFamily"/> to <paramref name="toFamily"/> iff the <paramref name="fromFamily"/> is not found.<br/>
         /// When the <paramref name="fromFamily"/> font is used in rendered html and is not found in existing 

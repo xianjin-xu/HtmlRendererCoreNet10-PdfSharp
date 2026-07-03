@@ -10,23 +10,44 @@
     <RepositoryUrl>https://github.com/xianjin-xu/HtmlRendererCore-PdfSharp</RepositoryUrl>
     <Description>HtmlRendererCore-Net10 is a partial port of HtmlRenderer for .NET Core.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.10.0</Version>
+    <Version>2.10.1.2</Version>
     <RootNamespace>HtmlRendererCore.PdfSharp</RootNamespace>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<IncrementVersionOnBuild>2.10.1.+</IncrementVersionOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Core\Utils\ImageError.png" />
     <None Remove="Core\Utils\ImageLoad.png" />
+	  <None Remove="fonts\segoeui.ttf" />
+	  <None Remove="fonts\segoeuib.ttf" />
+	  <None Remove="fonts\segoeuii.ttf" />
+	  <None Remove="fonts\segoeuiz.ttf" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Core\Utils\ImageError.png" />
     <EmbeddedResource Include="Core\Utils\ImageLoad.png" />
+    <EmbeddedResource Include="fonts\segoeui.ttf">
+		<LogicalName>fonts.segoeui.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fonts\segoeuib.ttf">
+		<LogicalName>fonts.segoeuib.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fonts\segoeuii.ttf">
+		<LogicalName>fonts.segoeuii.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fonts\segoeuiz.ttf">
+		<LogicalName>fonts.segoeuiz.ttf</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="PDFsharp" Version="6.2.4" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
 	</ItemGroup>
-
+	
+	<ItemGroup>
+		<None Include="../README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
 </Project>

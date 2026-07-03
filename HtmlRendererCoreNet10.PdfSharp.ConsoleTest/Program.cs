@@ -1,29 +1,36 @@
-﻿using System.Drawing;
-using System.Net;
-using System.Numerics;
-using System.Text;
-using HtmlRendererCore.Adapters;
-using HtmlRendererCore.PdfSharp;
+﻿using HtmlRendererCore.PdfSharp;
+
 using PdfSharp;
-using PdfSharp.Drawing;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using PdfSharp.Snippets.Font;
-using QRCoder;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.ColorSpaces;
-using SixLabors.ImageSharp.ColorSpaces.Conversion;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using Color = SixLabors.ImageSharp.Color;
 
-GlobalFontSettings.FontResolver = new FailsafeFontResolver();
+//GlobalFontSettings.FontResolver = new FailsafeFontResolver();
+Dictionary<string, string> customFonts = new Dictionary<string, string>()
+{
+    { "Deng.ttf", "C:\\Deng.ttf" },
+    { "Dengb.ttf", "C:\\Dengb.ttf" }
+};
+PdfGenerator.Initialize(customFonts);
+// for segoe UI is not support chinese, so we need to register a custom font for chinese text rendering.
+// and add a font mapping for segoe UI to use the custom font instead.
+PdfGenerator.AddFontFamilyMapping("Segoe UI", "Deng");
 
 var html = @"
                 <html >
+                <head>
+                <meta charset='utf-8'>
+                <style>
+               body, div, p {
+                font-family: 'Segoe UI','Deng', sans-serif;
+                font-size: 50px;
+                line-height: 10px;
+                }
+                </style>
+                </head>
                     <body style=""font-size: 50px; line-height: 10px"">
                         <div>test123</div>
+                        <p>test123-中华人民共和国</p>
                         <div style=""position: absolute; margin-top: -40px;"">tTest12</div>
                         <img src=""data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
   //8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="" alt=""Red dot"" />
@@ -34,8 +41,8 @@ var html = @"
 var document = new PdfDocument();
 document.Options.ColorMode = PdfColorMode.Cmyk;
 
-PdfGenerator.AddFontFamilyMapping("test123", "test123");
-PdfGenerator.AddFontFamily("test123");
+//PdfGenerator.AddFontFamilyMapping("test123", "test123");
+//PdfGenerator.AddFontFamily("test123");
 PdfGenerator.AddPdfPages(document, html, PageSize.A4, 0);
 
 document.Save("file.pdf");

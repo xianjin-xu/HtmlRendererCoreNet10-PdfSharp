@@ -3,7 +3,7 @@
 [![NuGet version (HtmlRendererCore.PdfSharp)](https://img.shields.io/nuget/v/HtmlRendererCore.PdfSharp.svg?style=flat-square)](https://www.nuget.org/packages/HtmlRendererCore.PdfSharp/)
 ![Build](https://github.com/j-petty/HtmlRendererCore/workflows/Build/badge.svg?branch=master)
 
-**HtmlRendererCore** is a partial port of [HtmlRendererCore](https://github.com/j-petty/HtmlRendererCore) for .NET 6+.
+**HtmlRendererCore** is a partial port of [HtmlRendererCore](https://github.com/j-petty/HtmlRendererCore) for .NET 8+.
 Previous versions of this library used `System.Drawing` which was deprecated for linux systems in .Net 6, and completely remove in .Net 7.
 
 This library offers Html to Pdf parsing for .Net Core projects using [PdfSharpCore](https://github.com/ststeiger/PdfSharpCore). We are currently using a preview version of this lib, as other older version did not support .Net 7 as well.
@@ -16,6 +16,22 @@ Future updates will be focused at cleaning up the codebase and offering support 
 
 ```cs
 var pdf = PdfGenerator.GeneratePdf(html, PdfSharpCore.PageSize.A4);
+```
+
+### Generate PDF from HTML with custom font resolver
+```cs
+Dictionary<string, string> customFonts = new Dictionary<string, string>()
+{
+    { "Deng.ttf", "C:\\Deng.ttf" },
+    { "Dengb.ttf", "C:\\Dengb.ttf" }
+};
+
+PdfGenerator.Initialize(customFonts);
+
+// for segoe UI is not support chinese, so we need to register a custom font for chinese text rendering.
+// and add a font mapping for segoe UI to use the custom font instead.
+
+PdfGenerator.AddFontFamilyMapping("Segoe UI", "Deng");
 ```
 
 ### Generating Base64 PDF from HTML
